@@ -8,6 +8,70 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><style>
 html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 .w3-bar-block .w3-bar-item {padding: 16px}
+
+.container {
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+ 	top: 5px;
+	left: 5px;
+	width: 9px;
+	height: 9px;
+	border-radius: 50%;
+	background: white;
+}
+
+
 </style>
 <body>
 
@@ -31,6 +95,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
       <div class="w3-container">
         <img class="w3-round w3-margin-right" src="./fileIcon5.png" style="width:15%;"><span class="w3-opacity w3-large">File 2</span>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+        <p><i class="fa fa-user"></i><b>Shared with</b> user user user</p>
       </div>
     </a>
     <a href="javascript:void(0)" class="w3-bar-item w3-button w3-border-bottom test w3-hover-light-grey" onclick="doShare('File3');w3_close();">
@@ -45,7 +110,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
   <a href="#" class="w3-bar-item w3-button"><i class="fa fa-trash w3-margin-right"></i>Trash</a>
 </nav>
 
-<!-- Modal that pops up when you click on "Share File" -->
+<!-- Modal that pops up when you click on "Share File" general -->
 <div id="id01" class="w3-modal" style="z-index:4">
   <div class="w3-modal-content w3-animate-zoom">
     <div class="w3-container w3-padding w3-red">
@@ -57,13 +122,74 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
       <label>To</label>
       <input class="w3-input w3-border w3-margin-bottom" type="text">
       <label>From</label>
-      <input class="w3-input w3-border w3-margin-bottom" type="text">
+      <input class="w3-input w3-border w3-margin-bottom" type="text" disabled value="bsha259@aucklanduni.ac.nz">
       <label>File</label>
-      <input class="w3-input w3-border w3-margin-bottom" type="text">
+      <select class="w3-input w3-border w3-margin-bottom">
+      	<option style="display: none">Select a File...</option>
+      	<option value="File1">
+      		File 1
+      	</option>
+      	<option value="File2">
+      		File 2
+      	</option>
+      	<option value="File3">
+      		File 3
+      	</option>
+      </select>
+      <div>
+	      <label>File Permissions</label>
+	      <div>
+		      <label class="container">Viewing
+				  <input type="radio" checked="checked" name="radio">
+				  <span class="checkmark"></span>
+			  </label>
+			  <label class="container"> Editing
+				  <input type="radio" name="radio">
+				  <span class="checkmark"></span>
+			  </label>
+		  </div>
+	  </div>
       <input class="w3-input w3-border w3-margin-bottom" style="height:150px" placeholder="Message">
       <div class="w3-section">
         <a class="w3-button w3-red" onclick="document.getElementById('id01').style.display='none'">Cancel  <i class="fa fa-remove"></i></a>
         <a class="w3-button w3-light-grey w3-right" onclick="document.getElementById('id01').style.display='none'">Share  <i class="fa fa-paper-plane"></i></a> 
+      </div>    
+    </div>
+  </div>
+</div>
+
+<!-- Modal that pops up when you click on "Share File" with selected File-->
+<div id="id02" class="w3-modal" style="z-index:4">
+  <div class="w3-modal-content w3-animate-zoom">
+    <div class="w3-container w3-padding w3-red">
+       <span onclick="document.getElementById('id02').style.display='none'"
+       class="w3-button w3-red w3-right w3-xxlarge"><i class="fa fa-remove"></i></span>
+      <h2>Share File</h2>
+    </div>
+    <div class="w3-panel">
+      <label>To</label>
+      <input class="w3-input w3-border w3-margin-bottom" type="text">
+      <label>From</label>
+      <input class="w3-input w3-border w3-margin-bottom" type="text" disabled value="bsha259@aucklanduni.ac.nz">
+      <label>File</label>
+      <input id="selFileInput" class="w3-input w3-border w3-margin-bottom" type="text" disabled value="">
+      <div>
+	      <label>File Permissions</label>
+	      <div>
+		      <label class="container">Viewing
+				  <input type="radio" checked="checked" name="radio">
+				  <span class="checkmark"></span>
+			  </label>
+			  <label class="container"> Editing
+				  <input type="radio" name="radio">
+				  <span class="checkmark"></span>
+			  </label>
+		  </div>
+	  </div>
+      <input class="w3-input w3-border w3-margin-bottom" style="height:150px" placeholder="Message">
+      <div class="w3-section">
+        <a class="w3-button w3-red" onclick="document.getElementById('id02').style.display='none'">Cancel  <i class="fa fa-remove"></i></a>
+        <a class="w3-button w3-light-grey w3-right" onclick="document.getElementById('id02').style.display='none'">Share  <i class="fa fa-paper-plane"></i></a> 
       </div>    
     </div>
   </div>
@@ -82,7 +208,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
   <img class="w3-round  w3-animate-top" src="./fileIcon3.png" style="width:20%;">
   <h5 class="w3-opacity">File 1</h5>
   <h4><i class="fa fa-clock-o"></i> File 1, Sep 27, 2015.</h4>
-  <a class="w3-button w3-light-grey" href="#">Share<i class="w3-margin-left fa fa-mail-reply"></i></a>
+  <a class="w3-button w3-light-grey" href="#" onclick="shareSelected('File1')">Share<i class="w3-margin-left fa fa-mail-reply"></i></a>
   <a class="w3-button w3-light-grey" href="#">Delete<i class="w3-margin-left fa fa-arrow-right"></i></a>
   <hr>
   
@@ -95,7 +221,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
   <img class="w3-round w3-animate-top" src="./fileIcon5.png" style="width:20%;">
   <h5 class="w3-opacity">File 2</h5>
   <h4><i class="fa fa-clock-o"></i> File 2, Sep 25, 2015.</h4>
-  <a class="w3-button w3-light-grey">Share<i class="w3-margin-left fa fa-mail-reply"></i></a>
+  <a class="w3-button w3-light-grey" onclick="shareSelected('File2')">Share<i class="w3-margin-left fa fa-mail-reply"></i></a>
   <a class="w3-button w3-light-grey">Delete<i class="w3-margin-left fa fa-arrow-right"></i></a>
   <hr>
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -107,7 +233,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
   <img class="w3-round w3-animate-top" src="./fileIcon2.png" style="width:20%;">
   <h5 class="w3-opacity">File 3</h5>
   <h4><i class="fa fa-clock-o"></i> File 3, Sep 23, 2015.</h4>
-  <a class="w3-button w3-light-grey">Share<i class="w3-margin-left fa fa-mail-reply"></i></a>
+  <a class="w3-button w3-light-grey" onclick="shareSelected('File3')">Share<i class="w3-margin-left fa fa-mail-reply"></i></a>
   <a class="w3-button w3-light-grey">Delete<i class="w3-margin-left fa fa-arrow-right"></i></a>
   <hr>
  
@@ -118,6 +244,11 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 <script>
 var openInbox = document.getElementById("myBtn");
 openInbox.click();
+
+//list of files
+//list of emails
+//list of groups
+
 
 function w3_open() {
   document.getElementById("mySidebar").style.display = "block";
@@ -154,6 +285,11 @@ function doShare(fileName) {
   }
   document.getElementById(fileName).style.display = "block";
   event.currentTarget.className += " w3-light-grey";
+}
+
+function shareSelected(fileName){
+	document.getElementById('id02').style.display='block'
+	document.getElementById('selFileInput').value=fileName
 }
 </script>
 
