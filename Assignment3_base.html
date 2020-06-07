@@ -283,7 +283,7 @@ let files ={
 		img:'./fileIcon5.png',
 		permissions:{
 			'personal@gmail.com':'Editing',
-			
+
 
 		}
 	},
@@ -311,6 +311,18 @@ let groups = {
 //06/23
 //S HUNTER 
 
+function removeGroupUser(group,name){
+	console.log(groups[group],name)
+	groups[group].users = groups[group].users.filter(function(ele){
+								return ele != name;
+							});
+	console.log(groups[group])
+
+}
+
+function removeDOMelement(el){
+  	el.remove();
+}
 
 function setupGroupContent(group, groupLabel){
 	//delete current div with ID of group if exists, then reform it.
@@ -321,7 +333,7 @@ function setupGroupContent(group, groupLabel){
 	let groupusers = ""
 	for (let x of group.users){
 		groupusers+=`<div>
-						<h5 style="display: contents">${x}</h5> <a class="w3-button w3-light-grey" href="#">Remove User<i class="w3-margin-left fa fa-user-times"></i></a>
+						<h5 style="display: contents">${x}</h5> <a class="w3-button w3-light-grey" href="#" onclick="removeGroupUser('${groupLabel}','${x}'); removeDOMelement(this.parentElement)">Remove User<i class="w3-margin-left fa fa-user-times"></i></a>
 					</div>`
 	}
 
@@ -362,7 +374,9 @@ function setupGroupContent(group, groupLabel){
 						</div>`
 		}
 	}
-	
+	if(groupfiles.length==0){
+		groupfiles=`<h5 class="w3-opacity">No Files Shared</h5>`
+	}
 	let insertPoint = document.getElementById("contentcontainer")
 	let insertHTML = `<div id="${groupLabel.replace(" ","")}" class="w3-container content" style="display:none">
 		<br>
@@ -452,7 +466,6 @@ function setupGroups(){
 	}
 
 }
-setupGroups()
 
 
 
@@ -492,6 +505,7 @@ function openContent(contentName) {
 	}
 	document.getElementById(contentName).style.display = "block";
 	event.currentTarget.className += " w3-light-grey";
+	setupGroups() //everytime new content page is opened, refresh all group relations
 }
 
 function shareSelected(fileName){
