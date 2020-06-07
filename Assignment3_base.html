@@ -123,19 +123,19 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 				</div>
 				<div class="w3-panel">
 					<label>To</label>
-					<input class="w3-input w3-border w3-margin-bottom" type="text">
+					<input class="w3-input w3-border w3-margin-bottom" type="text" name="toid01" placeholder="Type emails or name of group...">
 					<label>From</label>
 					<input class="w3-input w3-border w3-margin-bottom" type="text" disabled value="bsha259@aucklanduni.ac.nz">
 					<label>File</label>
-					<select class="w3-input w3-border w3-margin-bottom">
+					<select class="w3-input w3-border w3-margin-bottom" name="fileid01">
 						<option style="display: none">Select a File...</option>
-						<option value="File1">
+						<option value="File 1">
 							File 1
 						</option>
-						<option value="File2">
+						<option value="File 2">
 							File 2
 						</option>
-						<option value="File3">
+						<option value="File 3">
 							File 3
 						</option>
 					</select>
@@ -143,11 +143,11 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 						<label>File Permissions</label>
 						<div>
 							<label class="container">Viewing
-								<input type="radio" checked="checked" name="radio">
+								<input type="radio"  value="Viewing" checked="checked" name="radioid01">
 								<span class="checkmark"></span>
 							</label>
 							<label class="container"> Editing
-								<input type="radio" name="radio">
+								<input type="radio" value="Editing" name="radioid01">
 								<span class="checkmark"></span>
 							</label>
 						</div>
@@ -155,7 +155,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 					<input class="w3-input w3-border w3-margin-bottom" style="height:150px" placeholder="Message">
 					<div class="w3-section">
 						<a class="w3-button w3-red" onclick="document.getElementById('id01').style.display='none'">Cancel  <i class="fa fa-remove"></i></a>
-						<a class="w3-button w3-light-grey w3-right" onclick="document.getElementById('id01').style.display='none'">Share  <i class="fa fa-paper-plane"></i></a> 
+						<a class="w3-button w3-light-grey w3-right" onclick="document.getElementById('id01').style.display='none'; shareFile('id01')">Share  <i class="fa fa-paper-plane"></i></a> 
 					</div>    
 				</div>
 			</div>
@@ -171,20 +171,20 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 				</div>
 				<div class="w3-panel">
 					<label>To</label>
-					<input class="w3-input w3-border w3-margin-bottom" type="text">
+					<input class="w3-input w3-border w3-margin-bottom" type="text" name="toid02" placeholder="Type emails or name of group...">
 					<label>From</label>
 					<input class="w3-input w3-border w3-margin-bottom" type="text" disabled value="bsha259@aucklanduni.ac.nz">
 					<label>File</label>
-					<input id="selFileInput" class="w3-input w3-border w3-margin-bottom" type="text" disabled value="">
+					<input id="selFileInput" class="w3-input w3-border w3-margin-bottom" name="fileid02" type="text" disabled value="">
 					<div>
 						<label>File Permissions</label>
 						<div>
 							<label class="container">Viewing
-								<input type="radio" checked="checked" name="radio">
+								<input type="radio" value="Viewing" checked="checked" name="radioid02">
 								<span class="checkmark"></span>
 							</label>
 							<label class="container"> Editing
-								<input type="radio" name="radio">
+								<input type="radio" value="Editing" name="radioid02">
 								<span class="checkmark"></span>
 							</label>
 						</div>
@@ -192,7 +192,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 					<input class="w3-input w3-border w3-margin-bottom" style="height:150px" placeholder="Message">
 					<div class="w3-section">
 						<a class="w3-button w3-red" onclick="document.getElementById('id02').style.display='none'">Cancel  <i class="fa fa-remove"></i></a>
-						<a class="w3-button w3-light-grey w3-right" onclick="document.getElementById('id02').style.display='none'">Share  <i class="fa fa-paper-plane"></i></a> 
+						<a class="w3-button w3-light-grey w3-right" onclick="document.getElementById('id02').style.display='none'; shareFile('id02')">Share  <i class="fa fa-paper-plane"></i></a> 
 					</div>    
 				</div>
 			</div>
@@ -232,7 +232,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 				<img class="w3-round  w3-animate-top" src="./fileIcon3.png" style="width:20%;">
 				<h5 class="w3-opacity">File 1</h5>
 				<h4><i class="fa fa-clock-o"></i> File 1, Sep 27, 2015.</h4>
-				<a class="w3-button w3-light-grey" href="#" onclick="shareSelected('File1')">Share<i class="w3-margin-left fa fa-mail-reply"></i></a>
+				<a class="w3-button w3-light-grey" href="#" onclick="shareSelected('File 1')">Share<i class="w3-margin-left fa fa-mail-reply"></i></a>
 				<a class="w3-button w3-light-grey" href="#">Delete<i class="w3-margin-left fa fa-arrow-right"></i></a>
 				<hr>
 
@@ -245,7 +245,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 				<img class="w3-round w3-animate-top" src="./fileIcon5.png" style="width:20%;">
 				<h5 class="w3-opacity">File 2</h5>
 				<h4><i class="fa fa-clock-o"></i> File 2, Sep 25, 2015.</h4>
-				<a class="w3-button w3-light-grey" onclick="shareSelected('File2')">Share<i class="w3-margin-left fa fa-mail-reply"></i></a>
+				<a class="w3-button w3-light-grey" onclick="shareSelected('File 2')">Share<i class="w3-margin-left fa fa-mail-reply"></i></a>
 				<a class="w3-button w3-light-grey">Delete<i class="w3-margin-left fa fa-arrow-right"></i></a>
 				<hr>
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -258,7 +258,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 				<img class="w3-round w3-animate-top" src="./fileIcon2.png" style="width:20%;">
 				<h5 class="w3-opacity">File 3</h5>
 				<h4><i class="fa fa-clock-o"></i> File 3, Sep 23, 2015.</h4>
-				<a class="w3-button w3-light-grey" onclick="shareSelected('File3')">Share<i class="w3-margin-left fa fa-mail-reply"></i></a>
+				<a class="w3-button w3-light-grey" onclick="shareSelected('File 3')">Share<i class="w3-margin-left fa fa-mail-reply"></i></a>
 				<a class="w3-button w3-light-grey">Delete<i class="w3-margin-left fa fa-arrow-right"></i></a>
 				<hr>
 				<div id="File3shared" ></div>
@@ -354,14 +354,25 @@ function addGroupUser(group){
 }
 
 function addGroup(){
-	console.log("arrived")
 	let group = document.getElementById('newgroupname').value
 	let users = document.getElementById('newgroupusers').value.split(",")
 	groups[group]={users:users}
 	setupGroups()
 }
 
-
+function shareFile(modalID){
+	let targets = document.querySelector(`input[name='to${modalID}']`).value.split(",")
+	let permission = document.querySelector(`input[name='radio${modalID}']:checked`).value
+	let selector ='input'
+	if(modalID=='id01'){
+		selector='select'
+	}
+	let file = document.querySelector(`${selector}[name='file${modalID}']`).value
+	for( let x of targets){
+		files[file].permissions[x]=permission
+	}
+	setupGroups()
+}
 
 function setupGroupContent(group, groupLabel){
 	//delete current div with ID of group if exists, then reform it.
