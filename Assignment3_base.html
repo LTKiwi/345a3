@@ -318,6 +318,11 @@ function removeGroupUser(group,name){
 
 }
 
+function updatePermission(file, permission, target){
+
+	files[file].permissions[target]=permission
+}
+
 function removeDOMelement(el){
   	el.remove();
 }
@@ -327,6 +332,10 @@ function removeGroup(group){
 	let navmenu = document.getElementById(`${group.replace(" ","")}nav`)
 	removeDOMelement(content)
 	removeDOMelement(navmenu)
+
+	for (let x in files){
+		delete files[x].permissions[group]
+	}
 	delete groups[group]
 }
 
@@ -348,11 +357,11 @@ function setupGroupContent(group, groupLabel){
 							<label>File Permissions</label>
 								<div>
 									<label class="container">Viewing
-										<input type="radio" checked="checked" name="radio${x}">
+										<input type="radio" checked="checked" name="radio${x}" onclick="updatePermission('${x}','Viewing','${groupLabel}')">
 										<span class="checkmark"></span>
 									</label>
 									<label class="container"> Editing
-										<input type="radio" name="radio${x}">
+										<input type="radio" name="radio${x}" onclick="updatePermission('${x}','Editing','${groupLabel}')">
 										<span class="checkmark"></span>
 									</label>
 								</div>
@@ -365,11 +374,11 @@ function setupGroupContent(group, groupLabel){
 							<label>File Permissions</label>
 								<div>
 									<label class="container">Viewing
-										<input type="radio" name="radio${x}">
+										<input type="radio" name="radio${x}" onclick="updatePermission('${x}','Viewing','${groupLabel}')">
 										<span class="checkmark"></span>
 									</label>
 									<label class="container"> Editing
-										<input type="radio" checked="checked" name="radio${x}">
+										<input type="radio" checked="checked" name="radio${x}" onclick="updatePermission('${x}','Editing','${groupLabel}')">
 										<span class="checkmark"></span>
 									</label>
 								</div>
@@ -441,11 +450,11 @@ function setupGroups(){
 									<b><i class="fa ${icon}"></i>  ${y}</b>
 									<div>
 										<label class="container">Viewing
-											<input type="radio" checked="checked" name="radio${x+y}">
+											<input type="radio" checked="checked" name="radio${x+y}" onclick="updatePermission('${x}','Viewing','${y}')">
 											<span class="checkmark"></span>
 										</label>
 										<label class="container"> Editing
-											<input type="radio" name="radio${x+y}">
+											<input type="radio" name="radio${x+y}" onclick="updatePermission('${x}','Editing','${y}')">
 											<span class="checkmark"></span>
 										</label>
 									</div>
@@ -456,11 +465,11 @@ function setupGroups(){
 									<b><i class="fa ${icon}"></i>  ${y}</b>
 									<div>
 										<label class="container">Viewing
-											<input type="radio" name="radio${x+y}">
+											<input type="radio" name="radio${x+y}" onclick="updatePermission('${x}','Viewing','${y}')">
 											<span class="checkmark"></span>
 										</label>
 										<label class="container"> Editing
-											<input type="radio" checked="checked" name="radio${x+y}">
+											<input type="radio" checked="checked" name="radio${x+y}" onclick="updatePermission('${x}','Editing','${y}')">
 											<span class="checkmark"></span>
 										</label>
 									</div>
