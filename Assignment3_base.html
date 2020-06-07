@@ -106,14 +106,10 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 				</a>
 			</div>
 			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-paper-plane w3-margin-right"></i>Shared Files</a>
-			<a id="groupButton" onclick="myFunc('groupList')" href="javascript:void(0)" class="w3-bar-item w3-button"><i class="fa fa-inbox w3-margin-right"></i>Groups<i class="fa fa-caret-down w3-margin-left"></i></a>
+			<a id="groupButton" onclick="myFunc('groupList')" href="javascript:void(0)" class="w3-bar-item w3-button"><i class="fa fa-users w3-margin-right"></i>Groups<i class="fa fa-caret-down w3-margin-left"></i></a>
 			<div id="groupList" class="w3-hide w3-animate-left">
-				<a href="javascript:void(0)" class="w3-bar-item w3-button w3-border-bottom contentnav w3-hover-light-grey" onclick="openContent('345A2');w3_close();" id="firstTab">
-					<div class="w3-container">
-						<span class="w3-opacity w3-large">345 A2</span>
-					</div>
-				</a>
-			</div> <!-- THIS IS ALL TRASH AHSHHASHSAGHA -->
+				<!--Populated by setupGroup function -->
+			</div> 
 			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-hourglass-end w3-margin-right"></i>Draft Files</a>
 			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-trash w3-margin-right"></i>Trash</a>
 		</nav>
@@ -207,7 +203,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 		<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="Close Sidemenu" id="myOverlay"></div>
 
 		<!-- Page content -->
-		<div class="w3-main" style="margin-left:320px;">
+		<div id="contentcontainer" class="w3-main" style="margin-left:320px;">
 			<i class="fa fa-bars w3-button w3-white w3-hide-large w3-xlarge w3-margin-left w3-margin-top" onclick="w3_open()"></i>
 			<a href="javascript:void(0)" class="w3-hide-large w3-red w3-button w3-right w3-margin-top w3-margin-right" onclick="document.getElementById('id01').style.display='block'"><i class="fa fa-pencil"></i></a>
 
@@ -246,36 +242,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 				<hr>
 
 			</div>
-
-			<div id="345A2" class="w3-container content" style="display:none">
-				<br>
-				<h4 >Group 345</h4>
-				<a class="w3-button w3-light-grey" href="#">Delete<i class="w3-margin-left fa fa-trash"></i></a>
-				<div class="w3-opacity groupusers">
-					<h5>trs123@aucklanduni.ac.nz</h5>
-					<h5>caug321@aucklanduni.ac.nz</h5>
-				</div>
-				<hr>
-				<h4> Shared Files: </h4>
-				<div class="groupfiles">
-					<h4><img class="w3-round w3-margin-right" src="./fileIcon2.png" style="width:1.5em;">File 3</h4>
-					<label>File Permissions</label>
-						<div>
-							<label class="container">Viewing
-								<input type="radio" checked="checked" name="radio">
-								<span class="checkmark"></span>
-							</label>
-							<label class="container"> Editing
-								<input type="radio" name="radio">
-								<span class="checkmark"></span>
-							</label>
-						</div>
-						<a class="w3-button w3-light-grey" href="#">Stop Sharing<i class="w3-margin-left fa fa-times"></i></a>
-				</div>
-
-				<hr>
-
-			</div>
+			<!-- Groups are populated here by setupGroup which calls setupGroupContent -->
 
 		</div>
 
@@ -283,21 +250,131 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 			var openInbox = document.getElementById("myBtn");
 			openInbox.click();
 
-//list of files
+
 let files ={
-	"File1":{editing:[], viewing:[]},//groups are names, emails are emails, both lists can contain these
-	"File2":{editing:[], viewing:[]},
-	"File3":{editing:[], viewing:[]}
+	"File 1":{
+		img:'./fileIcon3.png',
+		permissions:{
+			'345 A2': 'Viewing'
+		}
+	},
+	"File 2":{
+		img:'./fileIcon5.png',
+		permissions:{
+			'personal@gmail.com':'Editing'
+		}
+	},
+	"File 3":{
+		img:'./fileIcon2.png',
+		permissions:{
+			'345 A2': 'Editing'
+		}
+	}
 }
+
 let groups = {
-	"345 A2": ["trs123@aucklanduni.ac.nz", "caug321@aucklanduni.ac.nz"]//label:[//emails]
+	"345 A2": {
+		users:["trs123@aucklanduni.ac.nz", "caug321@aucklanduni.ac.nz"]
+	}
 }
-//list of emails
-//list of groups
+
+
 
 //4357 4500 5389 1014
 //06/23
 //S HUNTER 
+
+
+function setupGroupContent(group, groupLabel){
+					
+	let groupusers = ""
+	for (let x of group.users){
+		groupusers+=`<div>
+						<h5 style="display: contents">${x}</h5> <a class="w3-button w3-light-grey" href="#">Remove User<i class="w3-margin-left fa fa-user-times"></i></a>
+					</div>`
+	}
+
+	let groupfiles =""
+	for (let x in files){
+		console.log(x)
+		if(files[x].permissions[groupLabel]=='Viewing'){
+			groupfiles+=`<div style="padding:0.2em">
+							<h4><img class="w3-round w3-margin-right" src="${files[x].img}" style="width:1.5em;">${x}</h4>
+							<label>File Permissions</label>
+								<div>
+									<label class="container">Viewing
+										<input type="radio" checked="checked" name="radio${x}">
+										<span class="checkmark"></span>
+									</label>
+									<label class="container"> Editing
+										<input type="radio" name="radio${x}">
+										<span class="checkmark"></span>
+									</label>
+								</div>
+							<a class="w3-button w3-light-grey" href="#">Stop Sharing<i class="w3-margin-left fa fa-times"></i></a>
+						</div>`
+		}
+		if(files[x].permissions[groupLabel]=='Editing'){
+			groupfiles+=`<div style="padding:0.2em">
+							<h4><img class="w3-round w3-margin-right" src="${files[x].img}" style="width:1.5em;">${x}</h4>
+							<label>File Permissions</label>
+								<div>
+									<label class="container">Viewing
+										<input type="radio" name="radio${x}">
+										<span class="checkmark"></span>
+									</label>
+									<label class="container"> Editing
+										<input type="radio" checked="checked" name="radio${x}">
+										<span class="checkmark"></span>
+									</label>
+								</div>
+							<a class="w3-button w3-light-grey" href="#">Stop Sharing<i class="w3-margin-left fa fa-times"></i></a>
+						</div>`
+		}
+	}
+	
+	let insertPoint = document.getElementById("contentcontainer")
+	let insertHTML = `<div id="${groupLabel.replace(" ","")}" class="w3-container content" style="display:none">
+		<br>
+		<h4 >${groupLabel}</h4>
+		<a class="w3-button w3-light-grey" href="#">Delete Group<i class="w3-margin-left fa fa-trash"></i></a>
+		<div class="w3-opacity groupusers">
+			${groupusers}
+		</div>
+		<hr>
+		<h4> Shared Files: </h4>
+		<div class="groupfiles" style="display:flex">
+			${groupfiles}
+		</div>
+
+		<hr>
+
+	</div>`
+	insertPoint.insertAdjacentHTML('beforeend', insertHTML)
+}
+
+function setupGroups(){
+	//navbar list
+	document.getElementById("groupList").innerHTML="" //set to blank inititally
+	for (let x in groups){
+		document.getElementById("groupList").innerHTML+= `
+		<a href="javascript:void(0)" class="w3-bar-item w3-button w3-border-bottom contentnav w3-hover-light-grey" onclick="openContent('${x.replace(" ","")}');w3_close();" id="firstTab">
+			<div class="w3-container">
+				<span class="w3-opacity w3-large">${x}</span>
+			</div>
+		</a>`
+		setupGroupContent(groups[x], x)
+
+
+	}
+	//file content lists
+
+
+	//Group Content pages
+}
+setupGroups()
+
+
 
 function w3_open() {
 	document.getElementById("mySidebar").style.display = "block";
@@ -336,20 +413,6 @@ function openContent(contentName) {
 	document.getElementById(contentName).style.display = "block";
 	event.currentTarget.className += " w3-light-grey";
 }
-
-
-function myFunc(id) {
-	var x = document.getElementById(id);
-	if (x.className.indexOf("w3-show") == -1) {
-		x.className += " w3-show"; 
-		x.previousElementSibling.className += " w3-red";
-	} else { 
-		x.className = x.className.replace(" w3-show", "");
-		x.previousElementSibling.className = 
-		x.previousElementSibling.className.replace(" w3-red", "");
-	}
-}
-
 
 function shareSelected(fileName){
 	document.getElementById('id02').style.display='block'
