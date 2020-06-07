@@ -95,7 +95,6 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 					<div class="w3-container">
 						<img class="w3-round w3-margin-right" src="./fileIcon5.png" style="width:15%;"><span class="w3-opacity w3-large">File 2</span>
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-						<p><i class="fa fa-user"></i><b>Shared with</b> user user user</p>
 					</div>
 				</a>
 				<a href="javascript:void(0)" class="w3-bar-item w3-button w3-border-bottom contentnav w3-hover-light-grey" onclick="openContent('File3');w3_close();">
@@ -217,7 +216,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 				<hr>
 
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-
+				<div id="File1shared" ></div>
 			</div>
 
 			<div id="File2" class="w3-container content">
@@ -229,6 +228,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 				<a class="w3-button w3-light-grey">Delete<i class="w3-margin-left fa fa-arrow-right"></i></a>
 				<hr>
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+				<div id="File2shared" ></div>
 
 			</div>
 
@@ -240,7 +240,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 				<a class="w3-button w3-light-grey" onclick="shareSelected('File3')">Share<i class="w3-margin-left fa fa-mail-reply"></i></a>
 				<a class="w3-button w3-light-grey">Delete<i class="w3-margin-left fa fa-arrow-right"></i></a>
 				<hr>
-
+				<div id="File3shared" ></div>
 			</div>
 			<!-- Groups are populated here by setupGroup which calls setupGroupContent -->
 
@@ -267,7 +267,8 @@ let files ={
 	"File 3":{
 		img:'./fileIcon2.png',
 		permissions:{
-			'345 A2': 'Editing'
+			'345 A2': 'Editing',
+			'tutor@uni.ac.nz':'Viewing'
 		}
 	}
 }
@@ -286,7 +287,11 @@ let groups = {
 
 
 function setupGroupContent(group, groupLabel){
-					
+	//delete current div with ID of group if exists, then reform it.
+	let existingcontent= document.getElementById("groupLabel".replace(" ", ""))
+	if(existingcontent!==null){
+		existingcontent.remove()
+	}		
 	let groupusers = ""
 	for (let x of group.users){
 		groupusers+=`<div>
@@ -296,7 +301,6 @@ function setupGroupContent(group, groupLabel){
 
 	let groupfiles =""
 	for (let x in files){
-		console.log(x)
 		if(files[x].permissions[groupLabel]=='Viewing'){
 			groupfiles+=`<div style="padding:0.2em">
 							<h4><img class="w3-round w3-margin-right" src="${files[x].img}" style="width:1.5em;">${x}</h4>
@@ -362,15 +366,60 @@ function setupGroups(){
 			<div class="w3-container">
 				<span class="w3-opacity w3-large">${x}</span>
 			</div>
-		</a>`
-		setupGroupContent(groups[x], x)
-
+		</a>`//create Nav Menu in group tab
+		setupGroupContent(groups[x], x) //create content page for group
+	}
+	//Add Group Button
+	document.getElementById("groupList").innerHTML+= ``
+	//file content lists
+	for (let x in files){
+		let filesharelist = document.getElementById(`${x.replace(" ","")}shared`)
+		filesharelist.innerHTML=""
+		if(Object.keys(files[x].permissions).length){
+			filesharelist.innerHTML=`<h4>Shared with</h4>`
+			let insertHTML=`<div style="display:flex">`
+			for (let y in files[x].permissions){
+				let icon ="fa-user"
+				if(y in groups){
+					icon="fa-users"	
+				}
+				if (files[x].permissions[y]=='Viewing'){
+					insertHTML+=`<div style="padding:0.2em">
+									<b><i class="fa ${icon}"></i>  ${y}</b>
+									<div>
+										<label class="container">Viewing
+											<input type="radio" checked="checked" name="radio${x+y}">
+											<span class="checkmark"></span>
+										</label>
+										<label class="container"> Editing
+											<input type="radio" name="radio${x+y}">
+											<span class="checkmark"></span>
+										</label>
+									</div>
+									<a class="w3-button w3-light-grey" href="#">Stop Sharing<i class="w3-margin-left fa fa-times"></i></a>
+								</div>`
+				}else{
+					insertHTML+=`<div style="padding:0.2em">
+									<b><i class="fa ${icon}"></i>  ${y}</b>
+									<div>
+										<label class="container">Viewing
+											<input type="radio" name="radio${x+y}">
+											<span class="checkmark"></span>
+										</label>
+										<label class="container"> Editing
+											<input type="radio" checked="checked" name="radio${x+y}">
+											<span class="checkmark"></span>
+										</label>
+									</div>
+									<a class="w3-button w3-light-grey" href="#">Stop Sharing<i class="w3-margin-left fa fa-times"></i></a>
+								</div>`
+				}
+			}
+			filesharelist.insertAdjacentHTML('beforeend',`${insertHTML}</div>`)	
+		}
 
 	}
-	//file content lists
 
-
-	//Group Content pages
 }
 setupGroups()
 
