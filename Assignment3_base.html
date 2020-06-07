@@ -198,6 +198,27 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 			</div>
 		</div>
 
+		<!-- Modal for Adding a Group -->
+		<div id="id03" class="w3-modal" style="z-index:4">
+			<div class="w3-modal-content w3-animate-zoom">
+				<div class="w3-container w3-padding w3-red">
+					<span onclick="document.getElementById('id03').style.display='none'"
+					class="w3-button w3-red w3-right w3-xxlarge"><i class="fa fa-remove"></i></span>
+					<h2>Create New Group</h2>
+				</div>
+				<div class="w3-panel">
+					<label>Group Name</label>
+					<input class="w3-input w3-border w3-margin-bottom" type="text">
+					<label>Group Users</label>
+					<input class="w3-input w3-border w3-margin-bottom" style="height:150px" placeholder="Comma seperated list">
+					<div class="w3-section">
+						<a class="w3-button w3-red" onclick="document.getElementById('id03').style.display='none'">Cancel  <i class="fa fa-remove"></i></a>
+						<a class="w3-button w3-light-grey w3-right" onclick="document.getElementById('id03').style.display='none'">Create Group <i class="fa fa-plus"></i></a> 
+					</div>    
+				</div>
+			</div>
+		</div>
+
 		<!-- Overlay effect when opening the side navigation on small screens -->
 		<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="Close Sidemenu" id="myOverlay"></div>
 
@@ -261,7 +282,9 @@ let files ={
 	"File 2":{
 		img:'./fileIcon5.png',
 		permissions:{
-			'personal@gmail.com':'Editing'
+			'personal@gmail.com':'Editing',
+			
+
 		}
 	},
 	"File 3":{
@@ -276,6 +299,9 @@ let files ={
 let groups = {
 	"345 A2": {
 		users:["trs123@aucklanduni.ac.nz", "caug321@aucklanduni.ac.nz"]
+	},
+	"CulinaryArtsGroup1":{
+		users:["jsmith@mail.com", "janedoe@email.org", "karen@roberts.nz"]
 	}
 }
 
@@ -362,7 +388,7 @@ function setupGroups(){
 	document.getElementById("groupList").innerHTML="" //set to blank inititally
 	for (let x in groups){
 		document.getElementById("groupList").innerHTML+= `
-		<a href="javascript:void(0)" class="w3-bar-item w3-button w3-border-bottom contentnav w3-hover-light-grey" onclick="openContent('${x.replace(" ","")}');w3_close();" id="firstTab">
+		<a href="javascript:void(0)" class="w3-bar-item w3-button w3-border-bottom contentnav w3-hover-light-grey" onclick="openContent('${x.replace(" ","")}');w3_close();">
 			<div class="w3-container">
 				<span class="w3-opacity w3-large">${x}</span>
 			</div>
@@ -370,7 +396,12 @@ function setupGroups(){
 		setupGroupContent(groups[x], x) //create content page for group
 	}
 	//Add Group Button
-	document.getElementById("groupList").innerHTML+= ``
+	document.getElementById("groupList").innerHTML+= `
+		<a href="javascript:void(0)" class="w3-bar-item w3-button w3-border-bottom contentnav w3-hover-pale-green" onclick="document.getElementById('id03').style.display='block'";w3_close();">
+			<div class="w3-container">
+				<span ><i class="fa fa-plus w3-margin-right"></i>Add Group</span>
+			</div>
+		</a>`
 	//file content lists
 	for (let x in files){
 		let filesharelist = document.getElementById(`${x.replace(" ","")}shared`)
