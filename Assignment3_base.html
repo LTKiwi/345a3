@@ -339,15 +339,33 @@ function removeGroup(group){
 	delete groups[group]
 }
 
+function addGroupUser(group, user){
+	let inputDOM = document.getElementById(group.replace(" ","")+'add')
+	let insertPoint = inputDOM.parentElement
+	let newuser= inputDOM.value
+	let userHTML = `<div style="display:flex">
+						<h5 class="w3-third">${newuser}</h5> <a class="w3-button w3-light-grey w3-hover-pale-red" href="#" onclick="removeGroupUser('${group}','${newuser}'); removeDOMelement(this.parentElement)">Remove User<i class="w3-margin-left fa fa-user-times"></i></a>
+					</div>`
+	if(newuser.length>0){
+		insertPoint.insertAdjacentHTML("beforebegin", userHTML)
+		groups[group].users.push(newuser)	
+	}
+	inputDOM.value=""
+}
+
+
 function setupGroupContent(group, groupLabel){
 	//delete current div with ID of group if exists, then reform it.
 	let existingcontent= document.getElementById(groupLabel.replace(" ", ""))	
 	let groupusers = ""
 	for (let x of group.users){
-		groupusers+=`<div>
-						<h5 style="display: contents">${x}</h5> <a class="w3-button w3-light-grey" href="#" onclick="removeGroupUser('${groupLabel}','${x}'); removeDOMelement(this.parentElement)">Remove User<i class="w3-margin-left fa fa-user-times"></i></a>
+		groupusers+=`<div style="display:flex">
+						<h5 class="w3-third">${x}</h5> <a class="w3-button w3-light-grey w3-hover-pale-red" href="#" onclick="removeGroupUser('${groupLabel}','${x}'); removeDOMelement(this.parentElement)">Remove User<i class="w3-margin-left fa fa-user-times"></i></a>
 					</div>`
 	}
+	groupusers+=`<div style="display:flex">
+					<input class="w3-input w3-border w3-third" type="text" placeholder="Type email..." id="${groupLabel.replace(" ", "")}add"><a class="w3-button w3-light-grey w3-hover-pale-green" href="#" onclick="addGroupUser('${groupLabel}');">Add User<i class="w3-margin-left fa fa-user-plus"></i></a>
+				</div>`
 
 	let groupfiles =""
 	for (let x in files){
