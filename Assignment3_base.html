@@ -312,11 +312,9 @@ let groups = {
 //S HUNTER 
 
 function removeGroupUser(group,name){
-	console.log(groups[group],name)
 	groups[group].users = groups[group].users.filter(function(ele){
 								return ele != name;
 							});
-	console.log(groups[group])
 
 }
 
@@ -324,12 +322,17 @@ function removeDOMelement(el){
   	el.remove();
 }
 
+function removeGroup(group){
+	let content = document.getElementById(group.replace(" ",""))
+	let navmenu = document.getElementById(`${group.replace(" ","")}nav`)
+	removeDOMelement(content)
+	removeDOMelement(navmenu)
+	delete groups[group]
+}
+
 function setupGroupContent(group, groupLabel){
 	//delete current div with ID of group if exists, then reform it.
-	let existingcontent= document.getElementById("groupLabel".replace(" ", ""))
-	if(existingcontent!==null){
-		existingcontent.remove()
-	}		
+	let existingcontent= document.getElementById(groupLabel.replace(" ", ""))	
 	let groupusers = ""
 	for (let x of group.users){
 		groupusers+=`<div>
@@ -378,10 +381,10 @@ function setupGroupContent(group, groupLabel){
 		groupfiles=`<h5 class="w3-opacity">No Files Shared</h5>`
 	}
 	let insertPoint = document.getElementById("contentcontainer")
-	let insertHTML = `<div id="${groupLabel.replace(" ","")}" class="w3-container content" style="display:none">
+	let insertHTML = `
 		<br>
 		<h4 >${groupLabel}</h4>
-		<a class="w3-button w3-light-grey" href="#">Delete Group<i class="w3-margin-left fa fa-trash"></i></a>
+		<a class="w3-button w3-light-grey" href="#" onclick="removeGroup('${groupLabel}')">Delete Group<i class="w3-margin-left fa fa-trash"></i></a>
 		<div class="w3-opacity groupusers">
 			${groupusers}
 		</div>
@@ -393,8 +396,13 @@ function setupGroupContent(group, groupLabel){
 
 		<hr>
 
-	</div>`
-	insertPoint.insertAdjacentHTML('beforeend', insertHTML)
+	`
+	if(existingcontent!==null){
+		existingcontent.innerHTML=insertHTML
+	}else{
+		insertPoint.insertAdjacentHTML('beforeend', `<div id="${groupLabel.replace(" ","")}" class="w3-container content" style="display:none">`+insertHTML+`</div>`)
+	}	
+	
 }
 
 function setupGroups(){
@@ -402,7 +410,7 @@ function setupGroups(){
 	document.getElementById("groupList").innerHTML="" //set to blank inititally
 	for (let x in groups){
 		document.getElementById("groupList").innerHTML+= `
-		<a href="javascript:void(0)" class="w3-bar-item w3-button w3-border-bottom contentnav w3-hover-light-grey" onclick="openContent('${x.replace(" ","")}');w3_close();">
+		<a href="javascript:void(0)" class="w3-bar-item w3-button w3-border-bottom contentnav w3-hover-light-grey" id="${x.replace(" ","")}nav" onclick="openContent('${x.replace(" ","")}');w3_close();">
 			<div class="w3-container">
 				<span class="w3-opacity w3-large">${x}</span>
 			</div>
