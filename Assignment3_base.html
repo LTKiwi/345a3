@@ -208,12 +208,12 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 				</div>
 				<div class="w3-panel">
 					<label>Group Name</label>
-					<input class="w3-input w3-border w3-margin-bottom" type="text">
+					<input class="w3-input w3-border w3-margin-bottom" type="text" id="newgroupname">
 					<label>Group Users</label>
-					<input class="w3-input w3-border w3-margin-bottom" style="height:150px" placeholder="Comma seperated list">
+					<textarea class="w3-input w3-border" placeholder="Comma seperated list" id="newgroupusers"></textarea>
 					<div class="w3-section">
 						<a class="w3-button w3-red" onclick="document.getElementById('id03').style.display='none'">Cancel  <i class="fa fa-remove"></i></a>
-						<a class="w3-button w3-light-grey w3-right" onclick="document.getElementById('id03').style.display='none'">Create Group <i class="fa fa-plus"></i></a> 
+						<a class="w3-button w3-light-grey w3-right" onclick="document.getElementById('id03').style.display='none'; addGroup();">Create Group <i class="fa fa-plus"></i></a> 
 					</div>    
 				</div>
 			</div>
@@ -339,7 +339,7 @@ function removeGroup(group){
 	delete groups[group]
 }
 
-function addGroupUser(group, user){
+function addGroupUser(group){
 	let inputDOM = document.getElementById(group.replace(" ","")+'add')
 	let insertPoint = inputDOM.parentElement
 	let newuser= inputDOM.value
@@ -352,6 +352,15 @@ function addGroupUser(group, user){
 	}
 	inputDOM.value=""
 }
+
+function addGroup(){
+	console.log("arrived")
+	let group = document.getElementById('newgroupname').value
+	let users = document.getElementById('newgroupusers').value.split(",")
+	groups[group]={users:users}
+	setupGroups()
+}
+
 
 
 function setupGroupContent(group, groupLabel){
