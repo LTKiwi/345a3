@@ -374,6 +374,11 @@ function shareFile(modalID){
 	setupGroups()
 }
 
+function stopShare(filename, target){
+
+	delete files[filename].permissions[target]
+	setupGroups()
+}
 function setupGroupContent(group, groupLabel){
 	//delete current div with ID of group if exists, then reform it.
 	let existingcontent= document.getElementById(groupLabel.replace(" ", ""))	
@@ -390,7 +395,7 @@ function setupGroupContent(group, groupLabel){
 	let groupfiles =""
 	for (let x in files){
 		if(files[x].permissions[groupLabel]=='Viewing'){
-			groupfiles+=`<div style="padding:0.2em">
+			groupfiles+=`<div style="padding:1em">
 							<h4><img class="w3-round w3-margin-right" src="${files[x].img}" style="width:1.5em;">${x}</h4>
 							<label>File Permissions</label>
 								<div>
@@ -403,11 +408,11 @@ function setupGroupContent(group, groupLabel){
 										<span class="checkmark"></span>
 									</label>
 								</div>
-							<a class="w3-button w3-light-grey" href="#">Stop Sharing<i class="w3-margin-left fa fa-times"></i></a>
+							<a class="w3-button w3-light-grey" href="#" onclick="stopShare('${x}', '${groupLabel}')">Stop Sharing<i class="w3-margin-left fa fa-times"></i></a>
 						</div>`
 		}
 		if(files[x].permissions[groupLabel]=='Editing'){
-			groupfiles+=`<div style="padding:0.2em">
+			groupfiles+=`<div style="padding:1em">
 							<h4><img class="w3-round w3-margin-right" src="${files[x].img}" style="width:1.5em;">${x}</h4>
 							<label>File Permissions</label>
 								<div>
@@ -420,7 +425,7 @@ function setupGroupContent(group, groupLabel){
 										<span class="checkmark"></span>
 									</label>
 								</div>
-							<a class="w3-button w3-light-grey" href="#">Stop Sharing<i class="w3-margin-left fa fa-times"></i></a>
+							<a class="w3-button w3-light-grey" href="#" onclick="stopShare('${x}', '${groupLabel}')">Stop Sharing<i class="w3-margin-left fa fa-times"></i></a>
 						</div>`
 		}
 	}
@@ -484,7 +489,7 @@ function setupGroups(){
 					icon="fa-users"	
 				}
 				if (files[x].permissions[y]=='Viewing'){
-					insertHTML+=`<div style="padding:0.2em">
+					insertHTML+=`<div style="padding:1em">
 									<b><i class="fa ${icon}"></i>  ${y}</b>
 									<div>
 										<label class="container">Viewing
@@ -496,10 +501,10 @@ function setupGroups(){
 											<span class="checkmark"></span>
 										</label>
 									</div>
-									<a class="w3-button w3-light-grey" href="#">Stop Sharing<i class="w3-margin-left fa fa-times"></i></a>
+									<a class="w3-button w3-light-grey" href="#" onclick="stopShare('${x}', '${y}')">Stop Sharing<i class="w3-margin-left fa fa-times"></i></a>
 								</div>`
 				}else{
-					insertHTML+=`<div style="padding:0.2em">
+					insertHTML+=`<div style="padding:1em">
 									<b><i class="fa ${icon}"></i>  ${y}</b>
 									<div>
 										<label class="container">Viewing
@@ -511,7 +516,7 @@ function setupGroups(){
 											<span class="checkmark"></span>
 										</label>
 									</div>
-									<a class="w3-button w3-light-grey" href="#">Stop Sharing<i class="w3-margin-left fa fa-times"></i></a>
+									<a class="w3-button w3-light-grey" href="#" onclick="stopShare('${x}', '${y}')">Stop Sharing<i class="w3-margin-left fa fa-times"></i></a>
 								</div>`
 				}
 			}
